@@ -33,24 +33,23 @@ const readlineSync = require('readline-sync');
 let animals = [];
 let fees = [];
 function addAnimal(name, fee) {
-    if (!name) {
-        try {name = ""; throw new Error('incorrect animal name!');} catch(err) {console.log('Oops,', err.message);} return 'Still running!';
-    } else if (fee < 0) {
-        try {fee = ""; throw new Error('incorrect fee amount!');} catch(err) {console.log('Oops,', err.message);} return 'Still running!';
-    } else {
-        animals.push(name);
-        fees.push(fee);
-        return `${name} added with a fee of $${fee}.`;
-    }
+    try { if (name === "") {throw new Error('invalid animal name :(');} }
+        catch(err) {console.log('Oops,', err.message); return 'Still running!'; }
+    try { if (fee < 0) {throw new Error('invalid fee amount :(');} }
+        catch(err) {console.log('Oops,', err.message); return 'Still running!'; }
+    
+    animals.push(name);
+    fees.push(fee);
+    return `${name} added with a fee of $${fee}.`;
+
 }
 function getAdoptionFee(animalName) {
     let index = animals.indexOf(animalName);
-    if (index === -1) {
-        try {index === -1; throw new Error("animal not found in records!");} catch(err) {console.log('Oops,', err.message);} return 'Still running!';
-    } else {
+    try { if (index === -1) {throw new Error("animal not found in records :(");} } 
+        catch(err) { console.log('Oops,', err.message); return 'Still running!'; }
+
     return `${animalName}'s adoption fee is $${fees[index]}.`;
-    }
-    
+
 }
 // Main program
 console.log("Welcome to the Pet Shelter System");
